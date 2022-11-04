@@ -5,6 +5,7 @@ const app = express();
 const key = process.env.openapi
 const bodyParser = require('body-parser');
 const {Configuration, OpenAIApi} = require("openai")
+require('dotenv').config()
 
 
 
@@ -22,7 +23,7 @@ app.use(
   );
 
 
-  const configuration = new Configuration({apiKey: "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"})
+  const configuration = new Configuration({apiKey: process.env.OPENAI_API_KEY})
 
   const openai = new OpenAIApi(configuration)
 
