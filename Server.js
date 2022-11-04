@@ -22,7 +22,7 @@ app.use(
   );
 
 
-  const configuration = new Configuration({apiKey: "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"})
+  const configuration = new Configuration({apiKey: "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"})
 
   const openai = new OpenAIApi(configuration)
 
@@ -62,11 +62,12 @@ app.use(
         lastdg = lastdg.split(" ")
         lastdg = parseInt(lastdg[lastdg.length-1] )
         req.output = lastdg ;
-
+    
         next()
     }
 
     catch(error){
+      
         next(error)
     }
   }
