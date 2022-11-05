@@ -44,9 +44,18 @@ app.use(
 
   const getAnswer = async(req,res,next)=>{
 
-   
     try{
-        
+      const operations = ['+','-','*','add','subtract','times',',multiply']
+      const firstdata = req.body.operation_type.split(" ")
+      const parsedNumber = parseInt(firstdata[0])
+      //const parsedData = Number.isInteger(parsedData)
+      //console.log(parsedNumber)
+        if(operations.includes(req.body.operation_type) || parsedNumber){
+          req.stringpassed = true
+          next()
+        }
+        else{
+
         const response = await openai.createCompletion({
             model:"text-davinci-002",
             prompt: req.body.operation_type,
@@ -61,11 +70,20 @@ app.use(
         let lastdg = ans[0]['text'].replace(/[^a-zA-Z0-9- ]/g, "")
       
         lastdg = lastdg.split(" ")
-        lastdg = parseInt(lastdg[lastdg.length-1] )
-        req.output = lastdg ;
-    
-        next()
+        
+            lastdg = parseInt(lastdg[lastdg.length-1] )
+            if(!lastdg){
+              req.stringpassed = true
+              next()
+            }
+            else{
+              req.output = lastdg ;
+              next()
+            }
+                  
     }
+
+  }
 
     catch(error){
       
@@ -81,6 +99,28 @@ app.use(
     const data = req.body.operation_type.split(" ")
 
     for(let i=0;i<data.length;i++){
+      if(req.stringpassed){
+        const firstDg = parseInt(req.body.x)
+        const secondDg = parseInt(req.body.y)
+        if(addition.includes(data[i])){
+          req.operand = 'addition'
+          req.output =  firstDg + secondDg
+          next()
+        }
+        else if(subtraction.includes(data[i])){
+          req.operand = 'subtraction'
+          req.output = firstDg - secondDg
+          next()
+        }
+        else if(multiplication.includes(data[i])){
+          req.operand = 'multiplication'
+          req.output = firstDg * secondDg
+          next()
+        }
+      }
+      else{
+        
+      }
           if(addition.includes(data[i])){
             req.operand = 'addition'
             next()
