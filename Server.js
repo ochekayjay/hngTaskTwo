@@ -45,7 +45,7 @@ app.use(
   const getAnswer = async(req,res,next)=>{
 
     try{
-      const operations = ['+','-','*','add','subtract','times',',multiply']
+      const operations = ['+','-','*','add','subtract','times',',multiply','addition','subtraction','multiplication']
       const firstdata = req.body.operation_type.split(" ")
       const parsedNumber = parseInt(firstdata[0])
       //const parsedData = Number.isInteger(parsedData)
